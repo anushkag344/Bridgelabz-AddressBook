@@ -1,4 +1,5 @@
-console.log("Address Book System");
+console.log("Welcome to Address Book Program");
+
 class Contact {
     firstName: string;
     lastName: string;
@@ -41,6 +42,34 @@ class Contact {
         console.log("Email      :", this.email);
     }
 }
+
+class AddressBook {
+    contact: Contact;
+
+    constructor(contact: Contact) {
+        this.contact = contact;
+    }
+
+    editContact(firstName: string): void {
+        if (this.contact.firstName === firstName) {
+            this.contact.address = "Dayal Bagh";
+            this.contact.city = "Mathura";
+            this.contact.state = "Uttar Pradesh";
+            this.contact.zip = 281001;
+            this.contact.phoneNumber = 9999999999;
+            this.contact.email = "updated@gmail.com";
+
+            console.log("\nContact Updated Successfully!");
+        } else {
+            console.log("\nContact Not Found!");
+        }
+    }
+
+    displayContact(): void {
+        this.contact.display();
+    }
+}
+
 let person1 = new Contact(
     "Anushka",
     "Gupta",
@@ -51,4 +80,10 @@ let person1 = new Contact(
     9876543210,
     "anushka@gmail.com"
 );
-person1.display();
+
+let addressBook = new AddressBook(person1);
+
+addressBook.editContact("Anushka");
+
+console.log("\nUpdated Contact Details:");
+addressBook.displayContact();
