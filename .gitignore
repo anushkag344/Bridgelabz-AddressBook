@@ -1,4 +1,7 @@
+# Updated on UC4
 node_modules/
-package-lock.json
-package.json
-tsconfig.json
+
+*.js
+*.js.map
+*.d.ts
+*.d.ts.map
