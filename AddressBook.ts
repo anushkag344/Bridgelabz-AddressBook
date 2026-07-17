@@ -1,36 +1,19 @@
 console.log("Welcome to Address Book Program");
-class Contact {
-    firstName: string;
-    lastName: string;
-    address: string;
-    city: string;
-    state: string;
-    zip: number;
-    phoneNumber: number;
-    email: string;
 
+class Contact {
     constructor(
-        firstName: string,
-        lastName: string,
-        address: string,
-        city: string,
-        state: string,
-        zip: number,
-        phoneNumber: number,
-        email: string
-    ) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.address = address;
-        this.city = city;
-        this.state = state;
-        this.zip = zip;
-        this.phoneNumber = phoneNumber;
-        this.email = email;
-    }
+        public firstName: string,
+        public lastName: string,
+        public address: string,
+        public city: string,
+        public state: string,
+        public zip: number,
+        public phoneNumber: number,
+        public email: string
+    ) {}
 
     display(): void {
-        console.log("\n----- Contact Details -----");
+        console.log("----------------------------");
         console.log("First Name :", this.firstName);
         console.log("Last Name  :", this.lastName);
         console.log("Address    :", this.address);
@@ -43,61 +26,50 @@ class Contact {
 }
 class AddressBook {
 
-    contact: Contact | null;
-    constructor(contact: Contact) {
-        this.contact = contact;
+    private contacts: Contact[] = [];
+
+    // UC1 & UC4
+    addContact(contact: Contact): void {
+        this.contacts.push(contact);
+        console.log(`${contact.firstName} added successfully.`);
     }
-    // UC2 - Edit Contact
-    editContact(
-        firstName: string,
-        address: string,
-        city: string,
-        state: string,
-        zip: number,
-        phoneNumber: number,
-        email: string
-    ): void {
 
-        if (this.contact && this.contact.firstName === firstName) {
+    // UC2
+    editContact(firstName: string, city: string): void {
 
-            this.contact.address = address;
-            this.contact.city = city;
-            this.contact.state = state;
-            this.contact.zip = zip;
-            this.contact.phoneNumber = phoneNumber;
-            this.contact.email = email;
+        const person = this.contacts.find(
+            contact => contact.firstName === firstName
+        );
 
-            console.log("\nContact Updated Successfully!");
+        if (person) {
+            person.city = city;
+            console.log("Contact Updated Successfully!");
         } else {
-            console.log("\nContact Not Found!");
+            console.log("Contact Not Found!");
         }
     }
-    // UC3 - Delete Contact
+
+    // UC3
     deleteContact(firstName: string): void {
 
-        if (this.contact && this.contact.firstName === firstName) {
+        this.contacts = this.contacts.filter(
+            contact => contact.firstName !== firstName
+        );
 
-            this.contact = null;
-            console.log("\nContact Deleted Successfully!");
-
-        } else {
-
-            console.log("\nContact Not Found!");
-
-        }
+        console.log("Contact Deleted Successfully!");
     }
-    displayContact(): void {
 
-        if (this.contact) {
-            this.contact.display();
-        } else {
-            console.log("\nNo Contact Available.");
-        }
+    displayContacts(): void {
+
+        console.log("\n===== Address Book =====");
+
+        this.contacts.forEach(contact => contact.display());
 
     }
 }
+// Create Address Book
+const addressBook = new AddressBook();
 // ================= UC1 =================
-
 const person1 = new Contact(
     "Anushka",
     "Gupta",
@@ -109,31 +81,34 @@ const person1 = new Contact(
     "anushka@gmail.com"
 );
 
-const addressBook = new AddressBook(person1);
-
-console.log("\nUC1 : Contact Added Successfully");
-addressBook.displayContact();
-
-
+addressBook.addContact(person1);
 // ================= UC2 =================
-
-addressBook.editContact(
-    "Anushka",
-    "Dayal Bagh",
-    "Mathura",
-    "Uttar Pradesh",
-    281001,
-    9999999999,
-    "updated@gmail.com"
+addressBook.editContact("Anushka", "Mathura");
+// ================= UC3 =================
+// ================= UC4 =================
+const person2 = new Contact(
+    "Rahul",
+    "Sharma",
+    "MG Road",
+    "Delhi",
+    "Delhi",
+    110001,
+    9876543211,
+    "rahul@gmail.com"
 );
 
-console.log("\nUC2 : Updated Contact Details");
-addressBook.displayContact();
+const person3 = new Contact(
+    "Priya",
+    "Singh",
+    "Civil Lines",
+    "Lucknow",
+    "Uttar Pradesh",
+    226001,
+    9876543212,
+    "priya@gmail.com"
+);
 
+addressBook.addContact(person2);
+addressBook.addContact(person3);
 
-// ================= UC3 =================
-
-addressBook.deleteContact("Anushka");
-
-console.log("\nUC3 : Contact List After Delete");
-addressBook.displayContact();
+addressBook.displayContacts();
