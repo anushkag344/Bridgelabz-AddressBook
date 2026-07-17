@@ -24,6 +24,7 @@ class Contact {
         console.log("Email      :", this.email);
     }
 }
+
 class AddressBook {
 
     private contacts: Contact[] = [];
@@ -31,7 +32,7 @@ class AddressBook {
     // UC1 & UC4
     addContact(contact: Contact): void {
         this.contacts.push(contact);
-        console.log(`${contact.firstName} added successfully.`);
+        console.log(`${contact.firstName} Added Successfully`);
     }
 
     // UC2
@@ -43,33 +44,48 @@ class AddressBook {
 
         if (person) {
             person.city = city;
-            console.log("Contact Updated Successfully!");
+            console.log("Contact Updated Successfully");
         } else {
-            console.log("Contact Not Found!");
+            console.log("Contact Not Found");
         }
     }
 
     // UC3
     deleteContact(firstName: string): void {
 
+        const lengthBefore = this.contacts.length;
+
         this.contacts = this.contacts.filter(
             contact => contact.firstName !== firstName
         );
 
-        console.log("Contact Deleted Successfully!");
+        if (this.contacts.length < lengthBefore) {
+            console.log("Contact Deleted Successfully");
+        } else {
+            console.log("Contact Not Found");
+        }
     }
 
+    // Display All Contacts
     displayContacts(): void {
 
         console.log("\n===== Address Book =====");
 
-        this.contacts.forEach(contact => contact.display());
+        if (this.contacts.length === 0) {
+            console.log("No Contacts Available");
+            return;
+        }
 
+        this.contacts.forEach(contact => contact.display());
     }
 }
-// Create Address Book
+
+// ================= MAIN =================
+
 const addressBook = new AddressBook();
+
 // ================= UC1 =================
+
 const person1 = new Contact(
     "Anushka",
     "Gupta",
@@ -82,10 +98,26 @@ const person1 = new Contact(
 );
 
 addressBook.addContact(person1);
+
+console.log("\nUC1 Output");
+addressBook.displayContacts();
+
 // ================= UC2 =================
+
 addressBook.editContact("Anushka", "Mathura");
+
+console.log("\nUC2 Output");
+addressBook.displayContacts();
+
 // ================= UC3 =================
+
+addressBook.deleteContact("Anushka");
+
+console.log("\nUC3 Output");
+addressBook.displayContacts();
+
 // ================= UC4 =================
+
 const person2 = new Contact(
     "Rahul",
     "Sharma",
@@ -111,4 +143,39 @@ const person3 = new Contact(
 addressBook.addContact(person2);
 addressBook.addContact(person3);
 
+console.log("\nUC4 Output");
 addressBook.displayContacts();
+// ================= UC5 =================
+class AddressBookSystem {
+
+    private addressBooks: Map<string, AddressBook> = new Map();
+
+    addAddressBook(name: string): void {
+
+        if (this.addressBooks.has(name)) {
+            console.log("\nAddress Book already exists!");
+            return;
+        }
+
+        this.addressBooks.set(name, new AddressBook());
+        console.log(`\nAddress Book '${name}' Created Successfully`);
+    }
+
+    getAddressBook(name: string): AddressBook | undefined {
+        return this.addressBooks.get(name);
+    }
+
+    displayAllAddressBooks(): void {
+
+        console.log("\n===== All Address Books =====");
+
+        this.addressBooks.forEach((book, name) => {
+
+            console.log(`\nAddress Book : ${name}`);
+
+            book.displayContacts();
+
+        });
+
+    }
+}
