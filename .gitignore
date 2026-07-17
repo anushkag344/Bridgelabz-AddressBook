@@ -1,5 +1,5 @@
 # Ignore generated files
-# Dependencies
+
 node_modules/
 
 # Compiled JavaScript files
