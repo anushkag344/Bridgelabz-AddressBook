@@ -6,6 +6,5 @@ node_modules/
 *.js
 *.js.map
 
-# TypeScript declaration files
 *.d.ts
 *.d.ts.map
