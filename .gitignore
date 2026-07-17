@@ -1,5 +1,11 @@
 # Ignore generated files
+# Dependencies
 node_modules/
-package-lock.json
-package.json
-tsconfig.json
+
+# Compiled JavaScript files
+*.js
+*.js.map
+
+# TypeScript declaration files
+*.d.ts
+*.d.ts.map
